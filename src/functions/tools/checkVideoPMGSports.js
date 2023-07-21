@@ -6,8 +6,8 @@ const cron = require("node-cron");
 
 module.exports = async (client) => {
   const checkVideo2 = async () => {
-    const channelId = "UCsPsZrQySVRR6so8j5HMqRw"; // YouTube channel ID
-    const apiKey = process.env.YOUTUBE_API_KEY; // Use the YouTube API key from .env file
+    const channelId = "UCPM_Ha2KzAVPy7O8dXVckLA"; // YouTube channel ID
+    const apiKey = process.env.PMG_SPORTS_API_KEY; // Use the YouTube API key from .env file
 
     const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`;
 
@@ -36,7 +36,7 @@ module.exports = async (client) => {
           const latestVideoId = latestVideoData.id.videoId;
           const latestVideoPublishedAt = latestVideoData.snippet.publishedAt;
 
-          const rawData = fs.readFileSync(`${__dirname}/../../json/video.json`);
+          const rawData = fs.readFileSync(`${__dirname}/../../json/video_PMG_Sports.json`);
           const jsonData = JSON.parse(rawData);
 
           if (jsonData.publishedAt === latestVideoPublishedAt) {
@@ -44,12 +44,12 @@ module.exports = async (client) => {
           }
 
           fs.writeFileSync(
-            `${__dirname}/../../json/video.json`,
+            `${__dirname}/../../json/video_PMG_Sports.json`,
             JSON.stringify({ id: latestVideoId, publishedAt: latestVideoPublishedAt })
           );
 
           const guild = await client.guilds.fetch("691793566556487731").catch(console.error);
-          const channel = await guild.channels.fetch("1055257262760919192").catch(console.error);
+          const channel = await guild.channels.fetch("1118664952916484148").catch(console.error);
 
           const { title, thumbnails, channelTitle } = latestVideoData.snippet;
           const videoUrl = `https://www.youtube.com/watch?v=${latestVideoId}`;
@@ -85,16 +85,12 @@ module.exports = async (client) => {
     request.end();
   };
 
-  // Schedule the checkVideo2 function to run at 7:01 a.m., 7:06 a.m. & 10 p.m. every day
-  cron.schedule("1 7 * * *", () => {
+  // Schedule the checkVideo2 function to run at 7:04 a.m. & 8:04 a.m. every day
+  cron.schedule("4 7 * * *", () => {
     checkVideo2();
   });
 
-  cron.schedule("6 7 * * *", () => {
-    checkVideo2();
-  });
-
-  cron.schedule("1 22 * * *", () => {
+  cron.schedule("4 8 * * *", () => {
     checkVideo2();
   });
 };
