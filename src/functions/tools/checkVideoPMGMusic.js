@@ -87,10 +87,10 @@ module.exports = async (client) => {
 
   // Schedule the checkVideo2 function to run at 7:04 a.m. & 8:04 a.m. every day
   cron.schedule("4 7 * * *", () => {
-    checkVideo2();
+    //checkVideo2();
   });
 
   cron.schedule("4 8 * * *", () => {
-    checkVideo2();
+    //checkVideo2();
   });
 };
